@@ -1,0 +1,32 @@
+networks:
+ myapp:
+
+services:
+  frontend:
+    build: frontend/
+    ports:
+    - "80:80"
+    networks:
+     - myapp
+  backend:
+    build: api-backend/
+    ports:
+    - "3000:3000"
+    networks:
+     - myapp
+    environment:
+     DB_USERNAME: "admin"
+     DB_PASSWORD: "admin"
+     DB_ENDPOINT: "database"
+     DB_NAME: "reviews_db"
+  database:
+    build: database/
+    ports:
+    - "3306:3000"
+    networks:
+     - myapp
+    environment:
+     MYSQL_PASSWORD: "admin"
+     MYSQL_USER: "admin"
+     MYSQL_DATABASE: "reviews_db"
+     MYSQL_ROOT_PASSWORD: "admin"

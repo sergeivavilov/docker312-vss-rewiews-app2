@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  labels:
+    app: reviews-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: reviews-api
+  template:
+    metadata:
+      labels:
+        app: reviews-api
+    spec:
+      containers:
+      - name: reviews-api
+        image: 856019860811.dkr.ecr.us-east-1.amazonaws.com/backend:2.0
+        ports:
+        - containerPort: 5000
+        resources:
+          requests:
+            memory: "150Mi"
+            cpu: "18m"
+          limits:
+            memory: "250Mi"
+            cpu: "23m"
+        livenessProbe:
+          exec:
+            command:
+            - cat
+            - /app/app.py
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        readinessProbe:
+          tcpSocket:
+            port: 5000
+          initialDelaySeconds: 7
+          periodSeconds: 3  
+
+
+        env:
+        - name: DB_ENDPOINT
+          valueFrom:
+            secretKeyRef:
+              name: backend-secret
+              key: DB_ENDPOINT
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: backend-secret
+              key: DB_USERNAME
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: backend-secret
+              key: DB_PASSWORD
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: backend-secret
+              key: DB_NAME
