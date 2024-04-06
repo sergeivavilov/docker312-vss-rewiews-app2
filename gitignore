@@ -1,0 +1,19 @@
+# Файлы и папки операционной системы
+.DS_Store
+Thumbs.db
+
+# Папки и файлы Terraform
+.terraform
+*.tfstate
+*.tfstate.*.backup
+*.tfstate.backup
+# *.tfvars
+
+# Логи и файлы, которые могут содержать чувствительные данные
+crash.log
+terraform.log
+
+# Игнорировать файлы, которые могут быть сгенерированы во время локальной разработки
+*.plan
+*.out
+.git
